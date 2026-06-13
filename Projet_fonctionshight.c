@@ -10,7 +10,7 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(hConsole, pos);
 }
 
-//ce projet a ete devellope avec amour
+//ce projet a ete devellope avec amour par les Mdevs
 
 // ====================================================== presentation =============================================
 void pesentation()
