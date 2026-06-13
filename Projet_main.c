@@ -5,8 +5,8 @@ int main()
 
     setlocale(LC_ALL, "");
     
-    pesentation();
-    auth();
+    //pesentation();
+    //auth();
 
 
     Employe *tab_presences = NULL; // creationn tableau
@@ -21,9 +21,9 @@ int main()
         gotoxy(45, 11);
         printf("1. Enregistrer une presence ");
         gotoxy(45, 12);
-        printf("2. Verification des presences d'un employe a une date donnee ");
+        printf("2. Enregistrer l'heure de depart d'un employe ");
         gotoxy(45, 13);
-        printf("3. Enregistrer l'heure de depart d'un employe ");
+        printf("3. Verification des presences d'un employe a une date donnee ");
         gotoxy(45, 14);
         printf("4. Supprimer la presence d'un employe ");
         gotoxy(45, 15);
@@ -35,7 +35,7 @@ int main()
         gotoxy(45, 18);
         printf("8. Liste de toutes les presences ");
         gotoxy(45, 19);
-        printf("9. Liste des presences d'un employe a une date donnee");
+        printf("9. Verifier la presence d'un employe a une date donnee");
         gotoxy(45, 20);
         printf("10. Liste des presences d'un employe entre deux dates ");
         gotoxy(45, 21);
@@ -56,16 +56,18 @@ int main()
 
         if (scanf("%d", &choix) != 1)
         {
-            printf("Entrée invalide !\n");
+            afficherErreur(59, 27, "Vous ne pouvez entrer que des nombres !\n");
 
             // vider le clavier
             while (getchar() != '\n');
 
             choix = -1;
         }
-
+        
+        else
+        {
+        
         system("cls");
-
         switch(choix)
         {
             case 1:
@@ -75,23 +77,18 @@ int main()
                 getch();
                 break;
             case 2:
-                verifierPresence(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
-                break;
-
-            case 3:
                 enregistrerDepart(tab_presences, n);
                 afficherPresences(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
                 break;
+
+
+            case 3:
+                verifierPresence(tab_presences, n);
+                break;
+
 
             case 4:
                 supprimerPresence(tab_presences, &n);
-                afficherPresences(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
                 break;
             case 5:
                 modifierPresence(tab_presences, n);
@@ -102,13 +99,9 @@ int main()
 
             case 6:
                 nombrePresences(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
                 break;
             case 7:
                 listePresencesParDate(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
                 break;
             case 8:
                 afficherPresences(tab_presences, n);
@@ -118,8 +111,6 @@ int main()
 
             case 9:
                 presenceEmployeDate(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
                 break;
 
             case 10:
@@ -158,10 +149,12 @@ int main()
                 break;
 
             default:
+
+                gotoxy(59, 27);
                 printf("Choix invalide !\n");
                 Sleep(1500);
         }
-
+        }
     } while(choix != 0);
 
     // libération mémoire
