@@ -10,7 +10,7 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(hConsole, pos);
 }
 
-//ce projet a ete devellope par Saikou -- Alpha -- Lookman -- Aly -- Souleymane
+//ce projet a ete devellope avec amour
 
 // ====================================================== presentation =============================================
 void pesentation()
