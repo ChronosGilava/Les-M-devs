@@ -49,11 +49,9 @@ void modifierPresence(Employe *tab, int n);
 void nombrePresences(Employe *tab, int n);
 void listePresencesParDate(Employe *tab, int n);
 void presenceEmployeDate(Employe *tab, int n);
-void presenceEntreDeuxDates(Employe *tab, int n);
 int comparerDates(Date d1, Date d2);
 void toutesPresencesEmploye(Employe *tab, int n);
 void presenceDepartementDate(Employe *tab, int n);
-void presenceDepartementEntreDates(Employe *tab, int n);
 void situationGlobale(Employe *tab, int n);
 
 

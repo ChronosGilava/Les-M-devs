@@ -10,23 +10,23 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(hConsole, pos);
 }
 
-//ce projet a ete devellope avec amour par les Mdevs
+
 
 // ====================================================== presentation =============================================
 void pesentation()
 {
-    gotoxy(35, 10);
-    printf("********************************* BIENVENUE *******************************************");
-    gotoxy(35, 13);
-    printf("Ceci est une application de controle de presence des employes d'une Entreprise");
-    gotoxy(35, 15);
-    printf("         Devellope par Saikou -- Alpha -- Lookman -- Aly -- Souleymane        ");
-    gotoxy(35, 18);
-    printf("****************************************************************************************");
-    gotoxy(35, 21);
+    system("cls");
+    gotoxy(13, 10);
+    printf("************************************************ BIENVENUE DANS SYLON TRACK **********************************************************");
+    gotoxy(13, 13);
+    printf("                            Ceci est une application de controle de presence des employes d'une Entreprise                            ");
+    gotoxy(13, 15);
+    printf("         Devellopee par Saikou Yaya Diallo -- Mamadou Alpha Diallo -- Lookman Soumaoro -- Aly Sidibe --Thierno Souleymane Barry       ");
+    gotoxy(13, 18);
+    printf("**************************************************************************************************************************************");
+    gotoxy(13, 21);
     printf("Appuyez sur une touche pour vous connecter... ");
-    gotoxy(78, 21);
-
+    gotoxy(58, 21);
     getch();
     system("cls");
 }
@@ -34,8 +34,8 @@ void pesentation()
 //============================================== Fonction Authentification ===================================
 void auth()
 {
-    char login[20];
-    char password[8];
+    char login[30];
+    char password[20];
 connexion:
     gotoxy(60, 10);
     printf("*************** CONNEXION ***************");
@@ -93,8 +93,8 @@ void enregistrerPresence(Employe **tab, int *n)
     *tab = (Employe *)realloc(*tab, (*n + 1) * sizeof(Employe));
 
     system("cls");
-    gotoxy(30, 2);
-    printf("===================== ENREGISTREMENT =====================");
+    gotoxy(5, 2);
+    printf("================================== ENREGISTREMENT ==================================");
 
     gotoxy(5, 5);
     printf("Numero d'enregistrement :  ");
@@ -255,11 +255,22 @@ void afficherPresences(Employe *tab, int n)
 {
     int i;
 
-    printf("\n================ LISTE DES PRESENCES =================\n");
+    printf("\n========================================== LISTE DES PRESENCES ==============================================\n");
 
     if (n == 0)
     {
-        printf("Aucune presence.\n");
+        gotoxy(45, 9);
+        printf("============================================================================================================");
+        gotoxy(45, 10);
+        printf("==                           Desoler Aucune presence n'est enregistree !                                  ==\n");
+        gotoxy(45, 12);
+        printf("==        Pour voir la liste des presences, vous devez d'abord les enregistrer les presences !            ==\n");
+        gotoxy(45, 14);
+        printf("============================================================================================================");
+
+        gotoxy(45, 16);
+        printf("Appuyez sur une touche pour continuer...");
+        getch();
         return;
     }
 
@@ -288,7 +299,7 @@ void afficherPresences(Employe *tab, int n)
                    tab[i].heure_depart.minutes);
     }
 
-    printf("\n=====================================================\n");
+    printf("\n=============================================================================================================\n");
 }
 // ===================================================== FONCTION 2 =================================================
 
@@ -353,7 +364,7 @@ void enregistrerDepart(Employe *tab, int n)
             tab[i].date_jour.mois == d.mois &&
             tab[i].date_jour.annee == d.annee)
         {
-        demH: // printf("Heure depart (hh mm) : ");
+        demH:
             gotoxy(73, 18);
 
             while (scanf("%d %d",
@@ -363,6 +374,15 @@ void enregistrerDepart(Employe *tab, int n)
                 afficherErreur(73, 18, "Heure invalide ! Reessayez..");
                 while (getchar() != '\n')
                     ;
+            }
+
+            if ((tab)[i].heure_depart.heure < 0 ||
+                (tab)[i].heure_depart.heure > 24 ||
+                (tab)[i].heure_depart.minutes < 0 ||
+                (tab)[i].heure_depart.minutes > 59)
+            {
+                afficherErreur(73, 18, "Heure invalide !");
+                goto demH;
             }
 
             if (tab[i].heure_arrive.heure > tab[i].heure_depart.heure)
@@ -631,11 +651,11 @@ void modifierPresence(Employe *tab, int n)
             tab[i].date_jour.annee == d.annee)
         {
             printf("\nPresence trouvee ! \n Modification...\n");
-            printf("Indice trouve = %d\n", i);
+
             Sleep(3000);
 
             system("cls");
-            gotoxy(30, 2);
+            gotoxy(5, 2);
             printf("======================================= MODIFICATION DE PRESENCE =============================================");
 
             gotoxy(5, 5);
@@ -956,7 +976,7 @@ void presenceEmployeDate(Employe *tab, int n)
         gotoxy(45, 10);
         printf("==                           Desoler Aucune presence n'est enregistree !                                  ==\n");
         gotoxy(45, 12);
-        printf("==      Pour voir la presence d'un employé par date, vous devez d'abord les enregistrer !                 ==\n");
+        printf("==      Pour voir la presence d'un employE par date, vous devez d'abord les enregistrer !                 ==\n");
         gotoxy(45, 14);
         printf("============================================================================================================");
 
@@ -1038,22 +1058,9 @@ void presenceEmployeDate(Employe *tab, int n)
 }
 
 //=======================================================FONCTION10===================================================
-int comparerDates(Date d1, Date d2)
-{
-
-    if (d1.annee != d2.annee)
-        return d1.annee - d2.annee;
-    if (d1.mois != d2.mois)
-        return d1.mois - d2.mois;
-    return d1.jour - d2.jour;
-}
-
-void presenceEntreDeuxDates(Employe *tab, int n)
+void toutesPresencesEmploye(Employe *tab, int n)
 {
     int mat, i, trouve = 0;
-    int ligne = 17;
-    Date d1, d2;
-
     if (n == 0)
     {
         gotoxy(45, 9);
@@ -1061,133 +1068,10 @@ void presenceEntreDeuxDates(Employe *tab, int n)
         gotoxy(45, 10);
         printf("==                           Desoler Aucune presence n'est enregistree !                                  ==");
         gotoxy(45, 12);
-        printf("==     Pour voir les presences entre deux dates, vous devez d'abord les enregistrer !                    ==");
+        printf("==     Pour voir toutes les presences d'un employe, vous devez d'abord les enregistrer !                  ==");
         gotoxy(45, 14);
         printf("============================================================================================================");
 
-        return;
-    }
-
-    system("cls");
-
-    gotoxy(5, 2);
-    printf("=========================== PRESENCE ENTRE DEUX DATES ===========================");
-
-    gotoxy(5, 6);
-    printf("Matricule                 : ");
-
-    gotoxy(5, 8);
-    printf("Date debut (jj mm aaaa)   : ");
-
-    gotoxy(5, 10);
-    printf("Date fin (jj mm aaaa)     : ");
-
-    gotoxy(5, 12);
-    printf("===============================================================================");
-
-    // Saisie du matricule
-
-    gotoxy(33, 6);
-    while (scanf("%d", &mat) != 1)
-    {
-        while (getchar() != '\n')
-            ;
-
-        afficherErreur(33, 6, "Matricule invalide !");
-    }
-
-    // Saisie date debut
-
-dateDebut:
-
-    gotoxy(33, 8);
-    while (scanf("%d %d %d",
-                 &d1.jour,
-                 &d1.mois,
-                 &d1.annee) != 3)
-    {
-        while (getchar() != '\n')
-            ;
-
-        afficherErreur(33, 8, "Date invalide !");
-    }
-
-    if (d1.jour < 1 || d1.jour > 31 ||
-        d1.mois < 1 || d1.mois > 12 ||
-        d1.annee < 1900 || d1.annee > 9999)
-    {
-        afficherErreur(33, 8, "Date invalide !");
-        goto dateDebut;
-    }
-
-    // Saisie date fin
-
-dateFin:
-
-    gotoxy(33, 10);
-    while (scanf("%d %d %d",
-                 &d2.jour,
-                 &d2.mois,
-                 &d2.annee) != 3)
-    {
-        while (getchar() != '\n')
-            ;
-
-        afficherErreur(33, 10, "Date invalide !");
-    }
-
-    if (d2.jour < 1 || d2.jour > 31 ||
-        d2.mois < 1 || d2.mois > 12 ||
-        d2.annee < 1900 || d2.annee > 9999)
-    {
-        afficherErreur(33, 10, "Date invalide !");
-        goto dateFin;
-    }
-
-    // Vérification de la période
-
-    if (comparerDates(d1, d2) > 0)
-    {
-        afficherErreur(33, 10, "La Date de debut ne peut pas etre superieure a la Date fin !");
-        goto dateFin;
-    }
-
-    gotoxy(5, 15);
-    printf("==================== PRESENCES TROUVEES ====================");
-
-    for (i = 0; i < n; i++)
-    {
-        if (tab[i].matricule == mat &&
-            comparerDates(tab[i].date_jour, d1) >= 0 &&
-            comparerDates(tab[i].date_jour, d2) <= 0)
-        {
-            gotoxy(5, ligne);
-
-            printf("Presence trouvee le : %02d/%02d/%d",
-                   tab[i].date_jour.jour,
-                   tab[i].date_jour.mois,
-                   tab[i].date_jour.annee);
-
-            ligne += 2;
-            trouve = 1;
-        }
-    }
-
-    if (!trouve)
-    {
-        gotoxy(5, 17);
-        printf("Aucune presence trouvee !");
-    }
-
-}
-
-//=======================================================FONCTION11======================================================
-void toutesPresencesEmploye(Employe *tab, int n)
-{
-    int mat, i, trouve = 0;
-    if (n == 0)
-    {
-        printf("Aucune presence enregistree !\n");
         return;
     }
 
@@ -1203,7 +1087,7 @@ void toutesPresencesEmploye(Employe *tab, int n)
     {
         if (tab[i].matricule == mat)
         {
-            printf("\nDate : %02d/%02d/%d\n",
+            printf("\n presence trouvee le : %02d/%02d/%d\n",
                    tab[i].date_jour.jour,
                    tab[i].date_jour.mois,
                    tab[i].date_jour.annee);
@@ -1216,7 +1100,7 @@ void toutesPresencesEmploye(Employe *tab, int n)
         printf("Aucune presence trouvee.\n");
 }
 
-//=======================================================FONCTION12========================================================
+//=======================================================FONCTION11======================================================
 void presenceDepartementDate(Employe *tab, int n)
 {
     char dep[50];
@@ -1224,17 +1108,39 @@ void presenceDepartementDate(Employe *tab, int n)
     Date d;
     if (n == 0)
     {
-        printf("Aucune presence enregistree !\n");
+        gotoxy(45, 9);
+        printf("============================================================================================================");
+        gotoxy(45, 10);
+        printf("==                           Desoler Aucune presence n'est enregistree !                                  ==");
+        gotoxy(45, 12);
+        printf("==                       vous devez d'abord  enregistrer les presences                                    ==");
+        gotoxy(45, 14);
+        printf("============================================================================================================");
+
         return;
     }
 
-    printf("Departement : ");
+    gotoxy(45, 10);
+    printf("========================= Verification de la presence d'un departement par date ==========================");
+    gotoxy(45, 13);
+    printf("Pour voir le nombre de presence d'un departement par date, veillez saisir le dep et renseigner \n\t\t\t\t\t\t\t la date a la quelle vous souhaiter verifier la presence");
+
+    gotoxy(45, 16);
+    printf("==   Departement : ");
+    gotoxy(45, 17);
+    printf("==   Date (jj mm aaaa) : ");
+    gotoxy(45, 19);
+    printf("=========================================================================================================");
+
+    gotoxy(64, 16);
+
     scanf("%s", dep);
 
-    printf("Date (jj mm aaaa) : ");
+    gotoxy(69, 17);
     while (scanf("%d %d %d", &d.jour, &d.mois, &d.annee) != 3)
     {
-        printf("Date invalide ! Reessayez : ");
+        afficherErreur(69, 17, "date invalide, Reesayer...");
+        Sleep(3000);
         while (getchar() != '\n')
             ;
     }
@@ -1250,58 +1156,33 @@ void presenceDepartementDate(Employe *tab, int n)
         }
     }
 
-    printf("Nombre de presences : %d\n", count);
+    if (count == 0)
+    {
+        gotoxy(45, 22);
+        printf("Aucune presense trouvee pour ce departement a cette date...");
+    }
+
+    else
+    {
+        gotoxy(45, 22);
+        printf("Nombre de presences pour ce departement a cette date : %d\n", count);
+    }
 }
 
-//========================================================FONCTION13======================================================
-void presenceDepartementEntreDates(Employe *tab, int n)
-{
-    char dep[50];
-    int i, count = 0;
-    Date d1, d2;
-    if (n == 0)
-    {
-        printf("Aucune presence enregistree !\n");
-        return;
-    }
-    printf("Departement : ");
-    scanf("%s", dep);
-
-    printf("Date debut : ");
-    while (scanf("%d %d %d", &d1.jour, &d1.mois, &d1.annee) != 3)
-    {
-        printf("Date invalide ! Reessayez : ");
-        while (getchar() != '\n')
-            ;
-    }
-
-    printf("Date fin : ");
-    while (scanf("%d %d %d", &d2.jour, &d2.mois, &d2.annee) != 3)
-    {
-        printf("Date invalide ! Reessayez : ");
-        while (getchar() != '\n')
-            ;
-    }
-
-    for (i = 0; i < n; i++)
-    {
-        if (strcmp(tab[i].Departement, dep) == 0 &&
-            comparerDates(tab[i].date_jour, d1) >= 0 &&
-            comparerDates(tab[i].date_jour, d2) <= 0)
-        {
-            count++;
-        }
-    }
-
-    printf("Nombre de presences : %d\n", count);
-}
-
-//========================================================FOCTION14========================================================
+//=======================================================FONCTION12========================================================
 void situationGlobale(Employe *tab, int n)
 {
     if (n == 0)
     {
-        printf("Aucune presence enregistree !\n");
+        gotoxy(45, 9);
+        printf("============================================================================================================");
+        gotoxy(45, 10);
+        printf("==                           Desoler Aucune presence n'est enregistree !                                       ==");
+        gotoxy(45, 12);
+        printf("==  pour voir la Situation globale des presences par departement, vous devez d'abord  enregistrer les presences ==");
+        gotoxy(45, 14);
+        printf("============================================================================================================");
+
         return;
     }
 
@@ -1323,3 +1204,6 @@ void situationGlobale(Employe *tab, int n)
                tab[i].Departement, count);
     }
 }
+
+
+// ce projet a ete devellope avec amour par les Mdevs :)

@@ -4,10 +4,9 @@ int main()
 {
 
     setlocale(LC_ALL, "");
-    
-    //pesentation();
-    //auth();
 
+    pesentation();
+    auth();
 
     Employe *tab_presences = NULL; // creationn tableau
     int n = 0;
@@ -16,7 +15,7 @@ int main()
     {
         system("cls");
 
-        gotoxy(45, 10); 
+        gotoxy(45, 10);
         printf("================================ MENU ==================================");
         gotoxy(45, 11);
         printf("1. Enregistrer une presence ");
@@ -37,39 +36,36 @@ int main()
         gotoxy(45, 19);
         printf("9. Verifier la presence d'un employe a une date donnee");
         gotoxy(45, 20);
-        printf("10. Liste des presences d'un employe entre deux dates ");
+        printf("10. Liste de toutes les presences d'un employe ");
         gotoxy(45, 21);
-        printf("11. Liste de toutes les presences d'un employe ");
+        printf("11. Situation des presences par departement a une date donnee");
         gotoxy(45, 22);
-        printf("12. Situation des presences par departement a une date donnee");
+        printf("12.  Situation globale des presences par departement");
         gotoxy(45, 23);
-        printf("13. Situation des presences par departement entre deux dates donnees ");
+        printf("0. Quitter ");
         gotoxy(45, 24);
-        printf("14. Situation globale des presences par departement");
-        gotoxy(45, 25);
-        printf("0. Quitter");
-        gotoxy(45, 26);
         printf("======================================================================");
-
-        gotoxy(45, 27);
+        
+        gotoxy(45, 25);
         printf("Votre choix : ");
 
         if (scanf("%d", &choix) != 1)
         {
-            afficherErreur(59, 27, "Vous ne pouvez entrer que des nombres !\n");
+            afficherErreur(59, 25, "Vous ne pouvez entrer que des nombres !\n");
 
             // vider le clavier
-            while (getchar() != '\n');
+            while (getchar() != '\n')
+                ;
 
-            choix = -1;
+           //choix = -1;
         }
-        
+
         else
         {
-        
-        system("cls");
-        switch(choix)
-        {
+
+            system("cls");
+            switch (choix)
+            {
             case 1:
                 enregistrerPresence(&tab_presences, &n);
                 afficherPresences(tab_presences, n);
@@ -81,11 +77,9 @@ int main()
                 afficherPresences(tab_presences, n);
                 break;
 
-
             case 3:
                 verifierPresence(tab_presences, n);
                 break;
-
 
             case 4:
                 supprimerPresence(tab_presences, &n);
@@ -114,48 +108,37 @@ int main()
                 break;
 
             case 10:
-                presenceEntreDeuxDates(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
-                break;
-
-            case 11:
                 toutesPresencesEmploye(tab_presences, n);
                 printf("\nAppuyez sur une touche pour continuer...");
                 getch();
                 break;
 
-            case 12:
+            case 11:
                 presenceDepartementDate(tab_presences, n);
                 printf("\nAppuyez sur une touche pour continuer...");
                 getch();
                 break;
 
-            case 13:
-                presenceDepartementEntreDates(tab_presences, n);
-                printf("\nAppuyez sur une touche pour continuer...");
-                getch();
-                break;
-
-            case 14:
+            case 12:
                 situationGlobale(tab_presences, n);
                 printf("\nAppuyez sur une touche pour continuer...");
                 getch();
                 break;
 
             case 0:
+                printf("Merci :) \n");
                 printf("Fermeture du programme...\n");
-                Sleep(1500);
+                Sleep(2000);
                 break;
 
             default:
 
-                gotoxy(59, 27);
+                //gotoxy(59, 27);
                 printf("Choix invalide !\n");
                 Sleep(1500);
+            }
         }
-        }
-    } while(choix != 0);
+    } while (choix != 0);
 
     // libération mémoire
     free(tab_presences);
