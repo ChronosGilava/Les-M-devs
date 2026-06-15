@@ -10,8 +10,6 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(hConsole, pos);
 }
 
-
-
 // ====================================================== presentation =============================================
 void pesentation()
 {
@@ -47,11 +45,33 @@ connexion:
     printf("******************************************");
 
     gotoxy(68, 13);
-    scanf("%s", &login);
-    gotoxy(71, 15);
-    scanf("%s", &password);
+    scanf("%s", login);
 
-    if (strcmp(login, "bgras") != 0 || strcmp(password, "mdp") != 0)
+    gotoxy(71, 15);
+
+    int i = 0;
+    char c;
+
+    while ((c = getch()) != 13) // Entrée
+    {
+        if (c == 8) // Backspace
+        {
+            if (i > 0)
+            {
+                i--;
+                printf("\b \b");
+            }
+        }
+        else if (i < 19)
+        {
+            password[i++] = c;
+            printf("*");
+        }
+    }
+
+    password[i] = '\0';
+
+    if (strcmp(login, "sylon") != 0 || strcmp(password, "motdepasse") != 0)
     {
         gotoxy(60, 18);
         printf("Login ou password incorrect ! veuillez reessayer ");
@@ -62,7 +82,7 @@ connexion:
     else
     {
         gotoxy(60, 18);
-        printf("Connexion Reussie ! ");
+        printf("Connexion Reussie !");
         Sleep(2000);
         system("cls");
     }
@@ -164,12 +184,46 @@ void enregistrerPresence(Employe **tab, int *n)
     (*tab)[*n].matricule = matri;
 
     // saisie du nom
-    gotoxy(33, 9);
-    scanf("%s", (*tab)[*n].Nom);
+    do
+    {
+        existe = 0;
+
+        gotoxy(33, 9);
+        scanf("%s", (*tab)[*n].Nom);
+
+        for (i = 0; (*tab)[*n].Nom[i] != '\0'; i++)
+        {
+            if ((*tab)[*n].Nom[i] >= '0' &&
+                (*tab)[*n].Nom[i] <= '9')
+            {
+                existe = 1;
+                afficherErreur(33, 9, "Le nom ne doit pas contenir de chiffres !");
+                break;
+            }
+        }
+
+    } while (existe);
 
     // saisie du prenom
-    gotoxy(33, 11);
-    scanf("%s", (*tab)[*n].Prenom);
+    do
+    {
+        existe = 0;
+
+        gotoxy(33, 11);
+        scanf("%s", (*tab)[*n].Prenom);
+
+        for (i = 0; (*tab)[*n].Prenom[i] != '\0'; i++)
+        {
+            if ((*tab)[*n].Prenom[i] >= '0' &&
+                (*tab)[*n].Prenom[i] <= '9')
+            {
+                existe = 1;
+                afficherErreur(33, 11, "Le prenom ne doit pas contenir de chiffres !");
+                break;
+            }
+        }
+
+    } while (existe);
 
     // saisie du departement
     gotoxy(33, 13);
@@ -1204,6 +1258,5 @@ void situationGlobale(Employe *tab, int n)
                tab[i].Departement, count);
     }
 }
-
 
 // ce projet a ete devellope avec amour par les Mdevs :)
